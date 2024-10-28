@@ -1,0 +1,40 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Metabolite {
+  chemicalGroup   ChemicalGroup? @relation(fields: [chemicalGroupId], references: [id])
+  chemicalGroupId String?
+  createdAt       DateTime       @default(now())
+  id              String         @id @default(cuid())
+  name            String?
+  updatedAt       DateTime       @updatedAt
+}
+
+model Species {
+  createdAt   DateTime @default(now())
+  description String?
+  id          String   @id @default(cuid())
+  name        String?
+  updatedAt   DateTime @updatedAt
+}
+
+model Bgc {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  name      String?
+  updatedAt DateTime @updatedAt
+}
+
+model ChemicalGroup {
+  createdAt   DateTime     @default(now())
+  id          String       @id @default(cuid())
+  metabolites Metabolite[]
+  name        String?
+  updatedAt   DateTime     @updatedAt
+}
